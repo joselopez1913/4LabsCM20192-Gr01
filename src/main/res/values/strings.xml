@@ -1,3 +1,33 @@
 <resources>
-    <string name="app_name">Lab4FCM</string>
+    <string name="app_name">Medallo</string>
+    <string name="userText">Usuario</string>
+    <string name="passwordText">Contraseña</string>
+    <string name="loginButton">Ingresar</string>
+    <string name="registerButton">Registrarse</string>
+
+
+    <string name="registerText">Registro de usuarios</string>
+    <string name="userRegisterText">Usuario</string>
+    <string name="emailRegisterText">Email</string>
+    <string name="passwordRegisterText">Contraseña</string>
+    <string name="BRegisterButton">Registrarse</string>
+    <string name="backRegisterButton">Atrás</string>
+
+    <string name="textTitle2">Sitio</string>
+    <string name="textInfo">Información del lugar</string>
+    <string name="textPoint">Puntuación</string>
+
+    <string name="nameSite">Sitio</string>
+    <string name="descripSite">Información del lugar</string>
+    <string name="pointSite">Puntuación (1 - 5)</string>
+    <string name="chooseButton">Elegir Imagen</string>
+    <string name="addButton">Agregar</string>
+    <string name="listButton">Ver Sitios</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_menuu">activity_menuu</string>
+    <string name="title_activity_menu2">Menu2Activity</string>
+
+
 </resources>
