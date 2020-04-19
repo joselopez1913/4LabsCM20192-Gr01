@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "458261137205",
+    "firebase_url": "https://lab4fcm-a9957.firebaseio.com",
+    "project_id": "lab4fcm-a9957",
+    "storage_bucket": "lab4fcm-a9957.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458261137205:android:c6dd662519748f7eadae7c",
+        "android_client_info": {
+          "package_name": "co.edu.udea.compumovil.gr01_20192.lab4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458261137205-e7opihip69kuespc5hqnucocgpiefm1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.edu.udea.compumovil.gr01_20192.lab4",
+            "certificate_hash": "73f7e140cdfe140cdf8a4deeb976a52d46563679"
+          }
+        },
+        {
+          "client_id": "458261137205-3g5ijg6t27aupf2jspd4gldbjr1301dh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8M-aGxGehbyL7SAXaT3P5D1w4xC-8eG0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458261137205-3g5ijg6t27aupf2jspd4gldbjr1301dh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
