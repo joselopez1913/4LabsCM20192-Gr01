@@ -18,9 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import co.edu.udea.compumovil.gr01_20192.lab4.R;
 
@@ -31,7 +36,7 @@ public class AddSite extends AppCompatActivity {
     Button btnChoose, btnAdd, btnList;
     ImageView imageView;
 
-    // private PoiDB PDB ;
+    private DatabaseReference mDatabase;
 
     final int REQUEST_CODE_GALLERY = 999;
 
@@ -41,14 +46,35 @@ public class AddSite extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_site);
 
+     edtName=(EditText)findViewById(R.id.nameSite);
      edtDesc = (EditText)findViewById(R.id.descripSite);
      edtPoint= (EditText)findViewById(R.id.pointSite);
+     imageView=(ImageView) findViewById(R.id.imageView3);
+
      btnChoose = (Button) findViewById(R.id.chooseButton);
      btnAdd = (Button) findViewById(R.id.addButton);
      btnList = (Button) findViewById(R.id.listButton);
-     imageView=(ImageView) findViewById(R.id.imageView3);
 
 
+     btnAdd.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+             String name=edtName.getText().toString();
+             String description=edtDesc.getText().toString();
+             String point=edtPoint.getText().toString();
+
+             addPoi(name, description, point);
+
+             Intent intent = new Intent(getApplicationContext(), MenuU.class);
+             startActivity(intent);
+
+         }
+     });
+     mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+
+     //open gallery and select pic
      btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,16 +87,29 @@ public class AddSite extends AppCompatActivity {
      });
 
 
-        btnList = findViewById(R.id.listButton);
+     //go to menu activity
+     btnList = findViewById(R.id.listButton);
         btnList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                openActivityMenu();
+                Intent intent = new Intent(getApplicationContext(), MenuU.class);
+                startActivity(intent);
             }
         });
 
     }
 
+    //add POI to Database
+    private void addPoi(String name, String description, String point) {
+        Map<String, Object> datosPoi = new HashMap<>();
+        datosPoi.put("sitio" ,name);
+        datosPoi.put("descripcion" ,description);
+        datosPoi.put("puntos", point);
+
+        mDatabase.child("Poi").push().setValue(datosPoi);
+    }
+
+    //convert image
     public static byte[] imageViewToByte(ImageView image) {
         Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -79,9 +118,9 @@ public class AddSite extends AppCompatActivity {
         return byteArray;
     }
 
+    //permisions gallery
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
         if(requestCode == REQUEST_CODE_GALLERY){
             if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 Intent intent = new Intent(Intent.ACTION_PICK);
@@ -93,19 +132,16 @@ public class AddSite extends AppCompatActivity {
             }
             return;
         }
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    //add pic
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null){
             Uri uri = data.getData();
-
             try {
                 InputStream inputStream = getContentResolver().openInputStream(uri);
-
                 Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 imageView.setImageBitmap(bitmap);
 
@@ -113,17 +149,8 @@ public class AddSite extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
-    public void openActivityMenu(){
-        Intent intent = new Intent(this, MenuU.class);
-        startActivity(intent);
-    }
-
-
 
 }
 
