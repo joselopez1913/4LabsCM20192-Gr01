@@ -1,13 +1,22 @@
 package co.edu.udea.compumovil.gr01_20192.lab4.UI;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.Auth;
@@ -19,25 +28,76 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import co.edu.udea.compumovil.gr01_20192.lab4.Entities.Poi;
 import co.edu.udea.compumovil.gr01_20192.lab4.R;
 
 
-public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private Button buttonnew,buttons;
+    private Button buttonnew, buttons;
 
 
     private GoogleApiClient googleApiClient;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
+    FirebaseDatabase database;
+    DatabaseReference ref;
+
+    ListView lvPoi;
+    private ArrayList<Poi> listpoi;
+    private ArrayAdapter<String> adapter;
+    Poi poi;
+    AdapterPoi adapterPoi;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuu);
 
+        //read data
+        poi = new Poi();
+        lvPoi = (ListView) findViewById(R.id.LvPoi);
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("Poi");
+        listpoi = new ArrayList<>();
+        //adapter = new ArrayAdapter<Poi>(this, android.R.layout.simple_selectable_list_item, listpoi);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
+                    poi = ds.getValue(Poi.class);
+                    listpoi.add(poi);
+                }
+                adapterPoi = new AdapterPoi(MenuU.this);
+                lvPoi.setAdapter(adapterPoi);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+
+        //floating button new site
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +113,7 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
                 .build();
 
         googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this,this)
+                .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
@@ -112,12 +172,10 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
         });
     }
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
 
     @Override
     protected void onStop() {
@@ -128,11 +186,38 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
         }
     }
 
-
-
     private void setSupportActionBar(Toolbar myToolbar) {
     }
 
+    class AdapterPoi extends ArrayAdapter<Poi>{
+
+        AppCompatActivity appCompatActivity;
+
+        public AdapterPoi(AppCompatActivity context){
+            super(context,R.layout.listpoi,listpoi);
+            appCompatActivity=context;
+        }
+
+        public View getView(int position, View convertviw, ViewGroup parent){
+            LayoutInflater inflater=appCompatActivity.getLayoutInflater();
+            View item = inflater.inflate(R.layout.listpoi,null);
+
+           // ImageView image3 =  (ImageView)item.findViewById(R.id.imagePOI);
+            TextView name3 = item.findViewById(R.id.txtName);
+            TextView desc3 = item.findViewById(R.id.txtDesc);
+            TextView point3 = item.findViewById(R.id.txtPoint);
+
+           // Bitmap bitmap = BitmapFactory.decodeByteArray(listpoi.get(position).getImage(), 0, listpoi.get(position).getImage().length);
+           // image3.setImageBitmap(bitmap);
+            name3.setText(listpoi.get(position).getNamep());
+            desc3.setText(listpoi.get(position).getDescription());
+            point3.setText(listpoi.get(position).getPoint());
+
+            return item;
+        }
 
     }
+}
+
+
 
