@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -63,17 +64,20 @@ public class AddSite extends AppCompatActivity {
              String description=edtDesc.getText().toString();
              String point=edtPoint.getText().toString();
 
-             addPoi(name, description, point);
+             if(name.isEmpty()) {
+                 addPoi(name, description, point);
 
-             Intent intent = new Intent(getApplicationContext(), MenuU.class);
-             startActivity(intent);
+                 Intent intent = new Intent(getApplicationContext(), MenuU.class);
+                 startActivity(intent);
+             }
+             Toast.makeText(AddSite.this, "No ha ingresado ningún sitio de interes", Toast.LENGTH_SHORT).show();
 
          }
      });
      mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-
+/*
      //open gallery and select pic
      btnChoose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +89,8 @@ public class AddSite extends AppCompatActivity {
                 );
             }
      });
+
+ */
 
 
      //go to menu activity
@@ -105,6 +111,7 @@ public class AddSite extends AppCompatActivity {
         datosPoi.put("sitio" ,name);
         datosPoi.put("descripcion" ,description);
         datosPoi.put("puntos", point);
+        datosPoi.put("imagen","https://firebasestorage.googleapis.com/v0/b/lab4fcm-a9957.appspot.com/o/Pagina_en_construccion.jpg?alt=media&token=ac5fdceb-a2e2-4ed5-aa9f-d299a7eb8e79");
 
         mDatabase.child("Poi").push().setValue(datosPoi);
     }

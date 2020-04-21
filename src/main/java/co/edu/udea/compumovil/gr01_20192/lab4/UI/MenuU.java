@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,12 +86,14 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
                     String namepoi = ds.child("sitio").getValue().toString();
                     String descpoi = ds.child("descripcion").getValue().toString();
                     String pointpoi = ds.child("puntos").getValue().toString();
+                    String imagepoi = ds.child("imagen").getValue().toString();
 
                     Poi p =new Poi();
                     p.setNamep(namepoi);
                     p.setDescription(descpoi);
                     p.setPoint(pointpoi);
-                    Log.i(TAG, "1 "+namepoi +"2 "+descpoi+"3 "+pointpoi);
+                    p.setImage(imagepoi);
+                    Log.i(TAG, "1 "+namepoi +"2 "+descpoi+"3 "+pointpoi+"4 "+imagepoi );
                     listpoi.add(p);
                 }
                 adapterPoi = new AdapterPoi(MenuU.this);
@@ -214,7 +217,7 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
             LayoutInflater inflater=appCompatActivity.getLayoutInflater();
             View item = inflater.inflate(R.layout.listpoi,null);
 
-           // ImageView image3 =  (ImageView)item.findViewById(R.id.imagePOI);
+            ImageView image3 =  (ImageView)item.findViewById(R.id.imagePOI);
             TextView name3 = item.findViewById(R.id.txtName);
             TextView desc3 = item.findViewById(R.id.txtDesc);
             TextView point3 = item.findViewById(R.id.txtPoint);
@@ -224,6 +227,8 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
             name3.setText(listpoi.get(position).getNamep());
             desc3.setText(listpoi.get(position).getDescription());
             point3.setText(listpoi.get(position).getPoint());
+            Picasso.get().load(listpoi.get(position).getImage()).into(image3);
+
 
             return item;
         }
