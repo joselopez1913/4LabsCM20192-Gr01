@@ -64,7 +64,7 @@ public class AddSite extends AppCompatActivity {
              String description=edtDesc.getText().toString();
              String point=edtPoint.getText().toString();
 
-             if(name.isEmpty()) {
+             if(name!="") {
                  addPoi(name, description, point);
 
                  Intent intent = new Intent(getApplicationContext(), MenuU.class);
