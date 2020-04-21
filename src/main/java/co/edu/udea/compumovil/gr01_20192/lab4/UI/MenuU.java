@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -56,15 +57,12 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
     FirebaseDatabase database;
     DatabaseReference ref;
 
-    ListView lvPoi;
-    private ArrayList<Poi> listpoi;
+    ListView lvPoi, listView;
+    private ArrayList<Poi> listpoi,lp;
     private ArrayList<String> list;
     private ArrayAdapter<Poi> adapter;
     Poi poi;
     AdapterPoi adapterPoi;
-
-    private static final String TAG = "Aqui";
-
 
 
     @Override
@@ -93,7 +91,6 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
                     p.setDescription(descpoi);
                     p.setPoint(pointpoi);
                     p.setImage(imagepoi);
-                    Log.i(TAG, "1 "+namepoi +"2 "+descpoi+"3 "+pointpoi+"4 "+imagepoi );
                     listpoi.add(p);
                 }
                 adapterPoi = new AdapterPoi(MenuU.this);
@@ -107,6 +104,26 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
         });
 
 
+
+        //fragment with info
+        lp = listpoi;
+        listView=(ListView)findViewById(R.id.LvPoi);
+        AdapterPoi aa = new AdapterPoi(this);
+        listView.setAdapter(aa);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(),SiteDetail.class);
+
+                intent.putExtra("imagen",lp.get(position).getImage());
+                intent.putExtra("sitio",lp.get(position).getNamep());
+                intent.putExtra("descripcion",lp.get(position).getDescription());
+                intent.putExtra("puntos",lp.get(position).getPoint());
+
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -222,8 +239,6 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
             TextView desc3 = item.findViewById(R.id.txtDesc);
             TextView point3 = item.findViewById(R.id.txtPoint);
 
-           // Bitmap bitmap = BitmapFactory.decodeByteArray(listpoi.get(position).getImage(), 0, listpoi.get(position).getImage().length);
-           // image3.setImageBitmap(bitmap);
             name3.setText(listpoi.get(position).getNamep());
             desc3.setText(listpoi.get(position).getDescription());
             point3.setText(listpoi.get(position).getPoint());
