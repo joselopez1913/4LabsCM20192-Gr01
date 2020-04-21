@@ -10,9 +10,9 @@ public class Poi {
     private String namep;
     private String description;
     private String point;
-    private byte[] image;
+    private String image;
 
-    public Poi(int pid, String namep, String description, String point, byte[] image) {
+    public Poi(int pid, String namep, String description, String point, String image) {
         this.pid = pid;
         this.namep = namep;
         this.description = description;
@@ -65,11 +65,11 @@ public class Poi {
         this.point = point;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }
