@@ -30,6 +30,9 @@ public class Poi {
     public Poi() {
     }
 
+    public Poi(String namepoi, String descpoi, String pointpoi) {
+    }
+
     public int getPid() {
         return pid;
     }

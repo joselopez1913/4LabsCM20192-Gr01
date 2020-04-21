@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +57,13 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
 
     ListView lvPoi;
     private ArrayList<Poi> listpoi;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<String> list;
+    private ArrayAdapter<Poi> adapter;
     Poi poi;
     AdapterPoi adapterPoi;
+
+    private static final String TAG = "Aqui";
+
 
 
     @Override
@@ -66,20 +71,27 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuu);
 
-        //read data
-        poi = new Poi();
+        //read DB
         lvPoi = (ListView) findViewById(R.id.LvPoi);
         database = FirebaseDatabase.getInstance();
         ref = database.getReference("Poi");
         listpoi = new ArrayList<>();
-        //adapter = new ArrayAdapter<Poi>(this, android.R.layout.simple_selectable_list_item, listpoi);
+        adapter = new ArrayAdapter<Poi>(this, android.R.layout.simple_selectable_list_item, listpoi);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
 
-                    poi = ds.getValue(Poi.class);
-                    listpoi.add(poi);
+                    String namepoi = ds.child("sitio").getValue().toString();
+                    String descpoi = ds.child("descripcion").getValue().toString();
+                    String pointpoi = ds.child("puntos").getValue().toString();
+
+                    Poi p =new Poi();
+                    p.setNamep(namepoi);
+                    p.setDescription(descpoi);
+                    p.setPoint(pointpoi);
+                    Log.i(TAG, "1 "+namepoi +"2 "+descpoi+"3 "+pointpoi);
+                    listpoi.add(p);
                 }
                 adapterPoi = new AdapterPoi(MenuU.this);
                 lvPoi.setAdapter(adapterPoi);
