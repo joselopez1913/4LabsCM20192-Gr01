@@ -6,6 +6,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -27,6 +30,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,6 +50,7 @@ import co.edu.udea.compumovil.gr01_20192.lab4.Entities.Poi;
 import co.edu.udea.compumovil.gr01_20192.lab4.R;
 
 
+
 public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private Button buttonnew, buttons;
@@ -61,14 +67,45 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
     private ArrayList<Poi> listpoi,lp;
     private ArrayList<String> list;
     private ArrayAdapter<Poi> adapter;
-    Poi poi;
     AdapterPoi adapterPoi;
 
+    private static final String TAG = "MyActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuu);
+
+        // config menu
+        Toolbar toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.inflateMenu(R.menu.menu_settings);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId()==R.id.action_signout)
+                {
+                    Toast.makeText(getApplicationContext(), "Sesión Finalizada", Toast.LENGTH_SHORT).show();
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getApplicationContext(), LoginU.class);
+                    startActivity(intent);
+
+                }
+                else if(item.getItemId()== R.id.action_settings)
+                {
+                    Toast.makeText(getApplicationContext(), "Intentelo mas tarde", Toast.LENGTH_SHORT).show();
+                    // Intent intent = new Intent(MenuU.this, SettingsFragment.class);
+                    //startActivity(intent);
+                }
+                else{
+                    // do something
+                }
+                return false;
+            }
+        });
+
+
+
 
         //read DB
         lvPoi = (ListView) findViewById(R.id.LvPoi);
@@ -125,10 +162,6 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
             }
         });
 
-
-
-
-
         //floating button new site
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -155,11 +188,14 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user == null) {
-                    goLogInScreen();
+                   // Log.i(TAG, "1");
+                   // goLogInScreen();
                 }
             }
         };
     }
+
+
 
     @Override
     protected void onStart() {
@@ -218,8 +254,13 @@ public class MenuU extends AppCompatActivity implements GoogleApiClient.OnConnec
         }
     }
 
+
+
     private void setSupportActionBar(Toolbar myToolbar) {
     }
+
+
+
 
     class AdapterPoi extends ArrayAdapter<Poi>{
 

@@ -25,7 +25,9 @@
             android:label="POI List"
             android:parentActivityName=".UI.AddSite" />
         <activity android:name=".UI.RegisterU" />
+        <activity android:name=".UI.SettingsFragment" />
         <activity android:name=".UI.LoginU">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

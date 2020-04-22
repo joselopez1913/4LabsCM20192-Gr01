@@ -23,6 +23,8 @@
     <string name="chooseButton">Elegir Imagen</string>
     <string name="addButton">Agregar</string>
     <string name="listButton">Ver Sitios</string>
+    <string name="action_out">Cerrar Sesión</string>
+    <string name="action_settings">Notificaciones</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
