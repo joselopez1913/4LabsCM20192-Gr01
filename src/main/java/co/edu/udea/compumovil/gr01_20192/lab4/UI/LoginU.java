@@ -143,7 +143,7 @@ public class LoginU extends AppCompatActivity  implements GoogleApiClient.OnConn
                 signInButton.setVisibility(View.VISIBLE);
 
                 if (!task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Fallo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Bienvenido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -195,7 +195,7 @@ public class LoginU extends AppCompatActivity  implements GoogleApiClient.OnConn
                 signInButton.setVisibility(View.VISIBLE);
 
                 if (!task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Fallo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Bienvenido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
