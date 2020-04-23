@@ -11,13 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        <service android:name=".Fcm.MyFirebaseMessagingService"
+                 android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".UI.SiteDetail"
             android:label="Settings"
             android:parentActivityName=".UI.MenuU">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.MenuU"></meta-data>
+                android:value=".UI.MenuU" />
         </activity>
         <activity android:name=".UI.AddSite" />
         <activity
@@ -27,7 +35,6 @@
         <activity android:name=".UI.RegisterU" />
         <activity android:name=".UI.SettingsFragment" />
         <activity android:name=".UI.LoginU">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

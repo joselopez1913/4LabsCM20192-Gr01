@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "458261137205-sf6cof6f3vb8kpfaep71n20204qdil14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.edu.udea.compumovil.gr01_20192.lab4",
+            "certificate_hash": "277f3610ef20ee697e5d6faf47bd5b0628011691"
+          }
+        },
+        {
           "client_id": "458261137205-e7opihip69kuespc5hqnucocgpiefm1g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
